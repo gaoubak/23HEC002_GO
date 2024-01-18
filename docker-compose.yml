@@ -1,0 +1,47 @@
+version: "3.7"
+services:
+  app:
+    build: .
+    image: hot-reloading-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+    environment:
+      PORT: "8000"
+
+  mysql:
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Goland123
+      MYSQL_DATABASE: golandDb
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 3s
+      retries: 10
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d/:ro
+    networks:
+      - goland-network
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8080:8080
+    restart: always
+    networks:
+      - goland-network
+
+networks:
+  goland-network:
+    driver: bridge
