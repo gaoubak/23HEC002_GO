@@ -2,19 +2,23 @@ package main
 
 import "github.com/gin-gonic/gin"
 
-func setupRouter() *gin.Engine {
-	r := gin.Default()
+func main() {
 
-	r.GET("/ping", func(c *gin.Context) {
+	router := gin.Default()
+
+
+	router.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"message": "pongg",
+			"message": "pong",
 		})
 	})
 
-	return r
-}
 
-func main() {
-	r := setupRouter()
-	r.Run()
+	router.GET("/reste", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "ponggararararara",
+		})
+	})
+
+	router.Run()
 }
