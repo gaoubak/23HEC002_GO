@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -18,34 +19,36 @@ func getDBEnv() (string, string, string, string, string) {
 		log.Fatal("Error loading .env file")
 	}
 
-	var dbUsername = os.Getenv("gonymous")
-	var dbPassword = os.Getenv("Goland123")
-	var dbHost = os.Getenv("localhost:3306")
-	var dbPort = os.Getenv("3306")
-	var dbName = os.Getenv("golandDb")
+	var dbUsername = os.Getenv("DB_USERNAME")
+	var dbPassword = os.Getenv("DB_PASSWORD")
+	var dbHost = os.Getenv("DB_HOST")
+	var dbPort = os.Getenv("DB_PORT")
+	var dbName = os.Getenv("DB_NAME")
+	fmt.Println("pute", dbUsername, dbPassword, dbHost, dbPort, dbName)
 
 	return dbUsername, dbPassword, dbHost, dbPort, dbName
 }
 
-func InitSqlConnection() *gorm.DB {
+func InitSqlConnection() (*gorm.DB, error) {
+	var err error
 
-	err := godotenv.Load()
-
+	err = godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
+		return nil, err
 	}
 
 	var dbUsername, dbPassword, dbHost, dbPort, dbName = getDBEnv()
 
 	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-
+	fmt.Println(dsn)
 	database, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-
 	if err != nil {
 		log.Fatal("Error connecting to database: ", err)
+		return nil, err
 	}
 
-	return database
+	return database, nil
 }
 
 func GetConnection() *gorm.DB {
@@ -53,5 +56,7 @@ func GetConnection() *gorm.DB {
 		return database
 	}
 
-	return InitSqlConnection()
+	_, _ = InitSqlConnection()
+
+	return database
 }
