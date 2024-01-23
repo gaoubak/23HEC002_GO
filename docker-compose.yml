@@ -32,11 +32,11 @@ services:
     networks:
       - goland-network
 
-  phpmyadmin:
-    container_name: phpmyadmin
+  adminer:
+    container_name: adminer
     depends_on:
       - mysql
-    image: phpmyadmin/phpmyadmin
+    image: adminer
     ports:
       - 8080:8080
     restart: always
