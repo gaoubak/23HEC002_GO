@@ -2,9 +2,11 @@ package main
 
 import (
 	"GolandProject/models"
+	"GolandProject/routes"
 	"GolandProject/services"
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,19 +33,18 @@ func main() {
 		log.Fatal("Error performing database migrations: ", err)
 	}
 
+	// Initialisez le routeur Gin
 	router := gin.Default()
 
+	// Configurez les routes en utilisant le package routeurs
+	routes.SetupRoutes(router)
+
 	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"message": "pong",
 		})
 	})
 
-	router.GET("/reste", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "ponggararararara",
-		})
-	})
-
-	router.Run(":8080")
+	// Lancez votre application
+	router.Run(":8000")
 }

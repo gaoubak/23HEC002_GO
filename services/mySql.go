@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -24,7 +23,6 @@ func getDBEnv() (string, string, string, string, string) {
 	var dbHost = os.Getenv("DB_HOST")
 	var dbPort = os.Getenv("DB_PORT")
 	var dbName = os.Getenv("DB_NAME")
-	fmt.Println("pute", dbUsername, dbPassword, dbHost, dbPort, dbName)
 
 	return dbUsername, dbPassword, dbHost, dbPort, dbName
 }
@@ -41,7 +39,6 @@ func InitSqlConnection() (*gorm.DB, error) {
 	var dbUsername, dbPassword, dbHost, dbPort, dbName = getDBEnv()
 
 	dsn := dbUsername + ":" + dbPassword + "@tcp(" + dbHost + ":" + dbPort + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-	fmt.Println(dsn)
 	database, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Fatal("Error connecting to database: ", err)
