@@ -10,7 +10,7 @@ func UserHandler(c *gin.Context) {
 	// Accédez à l'utilisateur à partir du contexte
 	user, exists := c.Get("user")
 	if !exists {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "User information not available"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "User information not available for this request get"})
 		return
 	}
 
