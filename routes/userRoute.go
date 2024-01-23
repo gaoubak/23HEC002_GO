@@ -2,16 +2,18 @@
 package routes
 
 import (
-	// "GolandProject/contexts"
+	"GolandProject/contexts"
 	"GolandProject/handlers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func SetupRoutes(router *gin.Engine) {
-	// Utilisez le middleware UserContext pour extraire l'ID de l'URL et ajouter l'utilisateur au contexte
-	// router.Use(contexts.UserContext())
+	// Groupe de routes avec le middleware UserContext pour les routes sous /user
+	userGroup := router.Group("/user")
+	userGroup.Use(contexts.UserContext())
 
 	// Définissez vos gestionnaires qui peuvent accéder à l'utilisateur depuis le contexte
-	router.GET("/user/:userId", handlers.UserHandler)
+	userGroup.GET("/:userId", handlers.UserHandler)
+	userGroup.PUT("/:userId", handlers.UpdateUserHandler)
 }
