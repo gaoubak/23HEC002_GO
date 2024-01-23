@@ -18,6 +18,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: Goland123
       MYSQL_DATABASE: golandDb
+      MYSQL_DATABASE_USER: gonymous
     healthcheck:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 3s
