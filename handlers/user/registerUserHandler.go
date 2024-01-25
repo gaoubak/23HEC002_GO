@@ -11,7 +11,6 @@ import (
 )
 
 func RegisterUserHandler(c *gin.Context) {
-	// Inside RegisterUserHandler
 	var user models.User
 
 	// Bind the JSON request body to the user model
