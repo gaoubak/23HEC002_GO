@@ -1,6 +1,7 @@
 package main
 
 import (
+	"GolandProject/handlers"
 	"GolandProject/models"
 	"GolandProject/routes"
 	"GolandProject/services"
@@ -8,6 +9,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,6 +38,14 @@ func main() {
 
 	// Initialisez le routeur Gin
 	router := gin.Default()
+
+	// Setup the cookie store for session management
+	store := cookie.NewStore([]byte("secret"))
+	router.Use(sessions.Sessions("mysession", store))
+
+	// Routes d'authentification
+	router.POST("/login", handlers.LoginHandler)
+	router.GET("/logout", handlers.LogoutHandler)
 
 	// Configurez les routes en utilisant le package routeurs
 	routes.SetupRoutes(router)

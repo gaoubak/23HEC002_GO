@@ -6,8 +6,11 @@ import (
 	"GolandProject/services"
 	"net/http"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 )
+
+const userKey = "user"
 
 func UserContext() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -25,7 +28,14 @@ func UserContext() gin.HandlerFunc {
 			return
 		}
 
-		c.Set("user", &user)
+		c.Set(userKey, &user)
+
+		// Vérifie si l'utilisateur est authentifié et l'enregistre dans la session
+		session := sessions.Default(c)
+		if authUser, exists := c.Get("authenticatedUser"); exists {
+			session.Set(userKey, authUser)
+			session.Save()
+		}
 
 		c.Next()
 	}
