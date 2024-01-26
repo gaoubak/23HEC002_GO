@@ -6,7 +6,7 @@ import (
 
 	"GolandProject/models"
 	"GolandProject/services"
-	"GolandProject/validators"
+	validators "GolandProject/validators/user"
 
 	"github.com/gin-gonic/gin"
 )
