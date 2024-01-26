@@ -17,7 +17,21 @@ type User struct {
 	Password          string `json:"password"`
 	// Roles             []string  `gorm:"-" json:"roles"`
 	// BoutiqueID        int64     `json:"boutiqueID"`
-	Model
+	// Model
+}
+
+// Méthode pour mettre à jour un utilisateur
+func (u *User) Update(updateUser validators.UpdateUserValidator) {
+	u.Username = updateUser.Username
+	u.FirstName = updateUser.FirstName
+	u.LastName = updateUser.LastName
+	u.Email = updateUser.Email
+
+	// Si un nouveau mot de passe est fourni, mettez à jour le mot de passe
+	if updateUser.Password != "" {
+		hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(updateUser.Password), bcrypt.DefaultCost)
+		u.EncryptedPassword = string(hashedPassword)
+	}
 }
 
 func (u *User) HashPassword() ([]byte, error) {

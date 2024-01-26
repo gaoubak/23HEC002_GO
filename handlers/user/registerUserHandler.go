@@ -20,20 +20,21 @@ func RegisterUserHandler(c *gin.Context) {
 	}
 
 	// Validate the user data for registration
-	//userValidator := &validators.RegisterUserValidator{}
-	/*if err := userValidator.Validate(); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}*/
-
-	// Create the user using the model method
-	user.Create(validators.RegisterUserValidator{
+	userValidator := validators.RegisterUserValidator{
 		Username:  user.Username,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Email:     user.Email,
 		Password:  user.Password,
-	})
+	}
+
+	if err := userValidator.Validate(); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Create the user using the model method
+	user.Create(userValidator)
 
 	// Access the database connection
 	db := services.GetConnection()
