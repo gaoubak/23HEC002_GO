@@ -22,6 +22,5 @@ func SetupRoutes(router *gin.Engine) {
 		// Définissez vos gestionnaires qui peuvent accéder à l'utilisateur depuis le contexte
 		userGroup.GET("/:userId", userHandler.UserHandler)
 		userGroup.PUT("/:userId", userHandler.UpdateUserHandler)
-		userGroup.POST("/register", userHandler.RegisterUserHandler)
 	}
 }

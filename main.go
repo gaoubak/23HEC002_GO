@@ -44,6 +44,7 @@ func main() {
 	router.Use(sessions.Sessions("mysession", store))
 
 	// Routes d'authentification
+	router.POST("/register", handlers.RegisterUserHandler)
 	router.POST("/login", handlers.LoginHandler)
 	router.GET("/logout", handlers.LogoutHandler)
 
