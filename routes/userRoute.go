@@ -13,10 +13,11 @@ func SetupRoutes(router *gin.Engine) {
 	// Define your handlers that can access the user from the context
 	// Groupe de routes avec le middleware UserContext pour les routes sous /user
 	userGroup := router.Group("/user")
-	userGroup.Use(contexts.UserContext())
-
 	// Appliquez AuthRequired aux routes nécessitant une authentification
 	userGroup.Use(middleware.AuthRequired)
+
+	// Appliquez le middleware UserContext aux routes sous /user
+	userGroup.Use(contexts.UserContext())
 
 	{
 		// Définissez vos gestionnaires qui peuvent accéder à l'utilisateur depuis le contexte
