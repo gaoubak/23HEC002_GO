@@ -3,6 +3,7 @@ package routes
 
 import (
 	"GolandProject/contexts"
+	reservationHandler "GolandProject/handlers/reservation"
 	userHandler "GolandProject/handlers/user"
 	"GolandProject/middleware"
 
@@ -13,6 +14,7 @@ func SetupRoutes(router *gin.Engine) {
 	// Define your handlers that can access the user from the context
 	// Groupe de routes avec le middleware UserContext pour les routes sous /user
 	userGroup := router.Group("/user")
+	reservationGroup := router.Group("/reservation")
 	// Appliquez AuthRequired aux routes nécessitant une authentification
 	userGroup.Use(middleware.AuthRequired)
 
@@ -24,5 +26,16 @@ func SetupRoutes(router *gin.Engine) {
 		userGroup.GET("/:userId", userHandler.UserHandler)
 		userGroup.PUT("/:userId", userHandler.UpdateUserHandler)
 		userGroup.GET("/", userHandler.GetAllUserHandler)
+	}
+
+	{
+		reservationGroup.GET("/", reservationHandler.GetAllReservationsHandler)
+		reservationGroup.GET("/:reservationId", reservationHandler.GetReservationByIDHandler)
+		reservationGroup.GET("/client/:clientId", reservationHandler.GetReservationsByClientIDHandler)
+		reservationGroup.GET("/hairdresser/:hairdresserId", reservationHandler.GetReservationsByHairdresserIDHandler)
+		reservationGroup.GET("/salon/:salonId", reservationHandler.GetReservationsBySalonIDHandler)
+		reservationGroup.DELETE("/:reservationId", reservationHandler.DeleteReservationHandler)
+		reservationGroup.PUT("/:reservationId", reservationHandler.UpdateReservationHandler)
+		reservationGroup.POST("/", reservationHandler.RegisterReservationHandler)
 	}
 }
