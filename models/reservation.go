@@ -1,7 +1,7 @@
 package models
 
 import (
-	validators "GolandProject/validators/reservations"
+	validators "GolandProject/validators/reservation"
 	"time"
 )
 
@@ -12,12 +12,12 @@ type Reservation struct {
 	SalonID           int       `gorm:"foreignKey:SalonId"`
 	HairdresserID     int       `gorm:"foreignKey:HairdresserId" json:"hairdresserId"`
 	ClientID          int       `gorm:"foreignKey:ClientID" json:"clientId"`
-	Salon             Salon     `gorm:"foreignKey:SalonId"`
+	/*Salon             Salon     `gorm:"foreignKey:SalonId"`
 	Hairdresser       User      `gorm:"foreignKey:HairdresserId"`
-	Client            User      `gorm:"foreignKey:ClientID"`
+	Client            User      `gorm:"foreignKey:ClientID"`*/
 }
 
-func (r *Reservation) Create(createReservation validators.RegisterReservationValidator) {
+func (r *Reservation) Create(createReservation validators.CreateReservationValidator) {
 	r.DateOfReservation = createReservation.DateOfReservation
 	r.Status = createReservation.Status
 	r.SalonID = createReservation.SalonID
@@ -25,7 +25,7 @@ func (r *Reservation) Create(createReservation validators.RegisterReservationVal
 	r.ClientID = createReservation.ClientID
 }
 
-func (r *Reservation) Update(updateReservation validators.RegisterReservationValidator) {
+func (r *Reservation) Update(updateReservation validators.UpdateReservationValidator) {
 	r.DateOfReservation = updateReservation.DateOfReservation
 	r.Status = updateReservation.Status
 	r.SalonID = updateReservation.SalonID
