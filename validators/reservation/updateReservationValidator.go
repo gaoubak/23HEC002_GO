@@ -9,6 +9,7 @@ import (
 // Structure de validation pour la mise à jour d'une réservation
 type UpdateReservationValidator struct {
 	DateOfReservation time.Time `json:"dateOfReservation" validate:"required"`
+	Status            string    `json:"status" validate:"omitempty,min=2"`
 	SalonID           int       `json:"salonId" validate:"required"`
 	HairdresserID     int       `json:"hairdresserId" validate:"required"`
 	ClientID          int       `json:"clientId" validate:"required"`
