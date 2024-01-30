@@ -13,8 +13,8 @@ type Reservation struct {
 	HairdresserID     int       `gorm:"foreignKey:HairdresserId" json:"hairdresserId"`
 	ClientID          int       `gorm:"foreignKey:ClientID" json:"clientId"`
 	/*Salon             Salon     `gorm:"foreignKey:SalonId"`
-	Hairdresser       User      `gorm:"foreignKey:HairdresserId"`
-	Client            User      `gorm:"foreignKey:ClientID"`*/
+	Hairdresser       User      `gorm:"foreignKey:HairdresserId"`*/
+	Client User `gorm:"foreignKey:ClientID"`
 }
 
 func (r *Reservation) Create(createReservation validators.CreateReservationValidator) {
