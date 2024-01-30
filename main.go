@@ -4,6 +4,7 @@ import (
 	"GolandProject/handlers"
 	"GolandProject/models"
 	"GolandProject/routes"
+	"GolandProject/seeders"
 	"GolandProject/services"
 	"fmt"
 	"log"
@@ -31,9 +32,16 @@ func main() {
 	defer connection.Close()
 
 	// Perform database migrations for models
-	err = database.AutoMigrate(&models.User{})
+	err = database.AutoMigrate(&models.User{}, &models.HairSalon{})
 	if err != nil {
 		log.Fatal("Error performing database migrations: ", err)
+	}
+
+	// Seed the database with some initial data
+	seeders.HairSalonSeeder(database)
+	seeders.UserSeeder(database)
+	if err != nil {
+		log.Fatal("Error seeding the database: ", err)
 	}
 
 	// Initialisez le routeur Gin
