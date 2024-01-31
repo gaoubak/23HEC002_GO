@@ -20,7 +20,7 @@ func GetReservationByIDHandler(c *gin.Context) {
 
 	// Retrieve the reservation from the database using its ID
 	var existingReservation models.Reservation
-	if err := db.First(&existingReservation, reservationID).Error; err != nil {
+	if err := db.Preload("Client").First(&existingReservation, reservationID).Error; err != nil {
 		// Display the error and return a NotFound response
 		fmt.Println("Error retrieving reservation from the database:", err)
 		c.JSON(http.StatusNotFound, gin.H{"error": "Reservation not found"})

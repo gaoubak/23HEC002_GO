@@ -20,6 +20,7 @@ func SetupRoutes(router *gin.Engine) {
 
 	// Appliquez le middleware UserContext aux routes sous /user
 	userGroup.Use(contexts.UserContext())
+	userGroup.Use(contexts.ReservationContext())
 
 	{
 		// Définissez vos gestionnaires qui peuvent accéder à l'utilisateur depuis le contexte

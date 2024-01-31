@@ -19,7 +19,7 @@ func UpdateReservationHandler(c *gin.Context) {
 	// Access the database connection
 	db := services.GetConnection()
 
-	// Retrieve the reservation from the database using its ID
+	// Retrieve the existing reservation from the database using its ID
 	var existingReservation models.Reservation
 	if err := db.First(&existingReservation, reservationID).Error; err != nil {
 		// Display the error and return a NotFound response
@@ -31,27 +31,8 @@ func UpdateReservationHandler(c *gin.Context) {
 	// Display information for debugging
 	fmt.Println("Existing Reservation:", existingReservation)
 
-	// Access the reservation from the context
-	reservation, exists := c.Get("reservation")
-	if !exists {
-		// Display an error message
-		fmt.Println("Reservation information not available for this request put")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Reservation information not available for this request put"})
-		return
-	}
-
-	// Ensure to convert the reservation to type *models.Reservation
-	updateReservation, ok := reservation.(*models.Reservation)
-	if !ok {
-		// Display an error message
-		fmt.Println("Reservation information not available in the expected format")
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Reservation information not available in the expected format"})
-		return
-	}
-
+	// Create a new UpdateReservationValidator and bind JSON data
 	var reservationValidator validators.UpdateReservationValidator
-
-	// Read and validate the JSON data sent by the user
 	if err := c.ShouldBindJSON(&reservationValidator); err != nil {
 		// Display the validation error and return a BadRequest response
 		fmt.Println("Error binding JSON:", err)
@@ -67,12 +48,12 @@ func UpdateReservationHandler(c *gin.Context) {
 		return
 	}
 
-	// Perform the update of the reservation
-	updateReservation.Update(reservationValidator)
+	// Update the existing reservation with the validated data
+	existingReservation.Update(reservationValidator)
 
 	// Save the updated reservation to the database
-	db.Save(updateReservation)
+	db.Save(&existingReservation)
 
 	// Respond with the updated reservation data
-	c.JSON(http.StatusOK, gin.H{"reservation": updateReservation})
+	c.JSON(http.StatusOK, gin.H{"reservation": existingReservation})
 }
