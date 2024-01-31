@@ -17,7 +17,7 @@ func GetAllReservationsHandler(c *gin.Context) {
 	var reservations []models.Reservation
 
 	// Perform a query to retrieve all reservations from the database
-	if err := db.Preload("User").Find(&reservations).Error; err != nil {
+	if err := db.Preload("User").Preload("HairSalon").Preload("HairSalon").Find(&reservations).Error; err != nil {
 		// In case of an error during the query, return an error response
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve reservations"})
 		return

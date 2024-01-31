@@ -22,7 +22,7 @@ func GetReservationsByUserIDHandler(c *gin.Context) {
 	var reservations []models.Reservation
 
 	// Perform a query to retrieve all reservations with the given UserID from the database
-	if err := db.Preload("User").Where("user_id = ?", UserID).Find(&reservations).Error; err != nil {
+	if err := db.Preload("User").Preload("HairSalon").Where("user_id = ?", UserID).Find(&reservations).Error; err != nil {
 		// Display the error and return a InternalServerError response
 		fmt.Println("Error retrieving reservations by UserID from the database:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve reservations"})
