@@ -32,7 +32,7 @@ func main() {
 	defer connection.Close()
 
 	// Perform database migrations for models
-	err = database.AutoMigrate(&models.User{}, &models.HairSalon{})
+	err = database.AutoMigrate(&models.User{}, &models.HairSalon{}, &models.Reservation{})
 	if err != nil {
 		log.Fatal("Error performing database migrations: ", err)
 	}
