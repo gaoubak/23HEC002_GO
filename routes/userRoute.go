@@ -3,8 +3,8 @@ package routes
 
 import (
 	"GolandProject/contexts"
-	reservationHandler "GolandProject/handlers/reservation"
 	hairSalonHandler "GolandProject/handlers/hairSalon"
+	reservationHandler "GolandProject/handlers/reservation"
 	userHandler "GolandProject/handlers/user"
 	"GolandProject/middleware"
 
@@ -35,13 +35,13 @@ func SetupRoutes(router *gin.Engine) {
 	{
 		reservationGroup.GET("/", reservationHandler.GetAllReservationsHandler)
 		reservationGroup.GET("/:reservationId", reservationHandler.GetReservationByIDHandler)
-		reservationGroup.GET("/client/:clientId", reservationHandler.GetReservationsByClientIDHandler)
+		reservationGroup.GET("/User/:userID", reservationHandler.GetReservationsByUserIDHandler)
 		reservationGroup.GET("/hairdresser/:hairdresserId", reservationHandler.GetReservationsByHairdresserIDHandler)
 		reservationGroup.GET("/salon/:salonId", reservationHandler.GetReservationsBySalonIDHandler)
 		reservationGroup.DELETE("/:reservationId", reservationHandler.DeleteReservationHandler)
 		reservationGroup.PUT("/:reservationId", reservationHandler.UpdateReservationHandler)
 		reservationGroup.POST("/", reservationHandler.RegisterReservationHandler)
-  }
+	}
 	{
 		hairSalonGroup.GET("/:hairSalonId", hairSalonHandler.GetSingleHairSalonHandler)
 		hairSalonGroup.GET("/", hairSalonHandler.GetAllHairSalonHandler)

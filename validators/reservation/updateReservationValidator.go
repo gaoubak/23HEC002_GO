@@ -12,7 +12,7 @@ type UpdateReservationValidator struct {
 	Status            string    `json:"status" validate:"omitempty,min=2"`
 	SalonID           int       `json:"salonId" validate:"required"`
 	HairdresserID     int       `json:"hairdresserId" validate:"required"`
-	ClientID          int       `json:"clientId" validate:"required"`
+	UserID          int       `json:"UserID" validate:"required"`
 }
 
 // Méthode pour valider la structure UpdateReservationValidator

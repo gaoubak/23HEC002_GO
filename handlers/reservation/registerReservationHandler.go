@@ -29,7 +29,7 @@ func RegisterReservationHandler(c *gin.Context) {
 		Status:            reservation.Status,
 		SalonID:           reservation.SalonID,
 		HairdresserID:     reservation.HairdresserID,
-		ClientID:          reservation.ClientID,
+		UserID:            reservation.UserID,
 	}
 
 	if err := reservationValidator.Validate(); err != nil {

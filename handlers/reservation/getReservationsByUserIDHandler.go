@@ -10,10 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetReservationsByClientIDHandler retrieves all reservations by ClientID
-func GetReservationsByClientIDHandler(c *gin.Context) {
-	// Retrieve the ClientID from the URL parameters
-	clientID := c.Param("clientId")
+// GetReservationsByUserIDHandler retrieves all reservations by UserID
+func GetReservationsByUserIDHandler(c *gin.Context) {
+	// Retrieve the UserID from the URL parameters
+	UserID := c.Param("UserID")
 
 	// Access the database connection
 	db := services.GetConnection()
@@ -21,10 +21,10 @@ func GetReservationsByClientIDHandler(c *gin.Context) {
 	// Declare a slice to store all reservations
 	var reservations []models.Reservation
 
-	// Perform a query to retrieve all reservations with the given ClientID from the database
-	if err := db.Preload("Client").Where("client_id = ?", clientID).Find(&reservations).Error; err != nil {
+	// Perform a query to retrieve all reservations with the given UserID from the database
+	if err := db.Preload("User").Where("user_id = ?", UserID).Find(&reservations).Error; err != nil {
 		// Display the error and return a InternalServerError response
-		fmt.Println("Error retrieving reservations by ClientID from the database:", err)
+		fmt.Println("Error retrieving reservations by UserID from the database:", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve reservations"})
 		return
 	}

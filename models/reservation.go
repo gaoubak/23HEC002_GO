@@ -11,10 +11,10 @@ type Reservation struct {
 	Status            string    `json:"status"`
 	SalonID           int       `gorm:"foreignKey:SalonId"`
 	HairdresserID     int       `gorm:"foreignKey:HairdresserId" json:"hairdresserId"`
-	ClientID          int       `gorm:"foreignKey:ClientID" json:"clientId"`
+	UserID            int       `gorm:"foreignKey:UserID" json:"UserId"`
 	/*Salon             Salon     `gorm:"foreignKey:SalonId"`
 	Hairdresser       User      `gorm:"foreignKey:HairdresserId"`*/
-	Client User `gorm:"foreignKey:ClientID"`
+	User User `gorm:"foreignKey:UserID"`
 }
 
 func (r *Reservation) Create(createReservation validators.CreateReservationValidator) {
@@ -22,7 +22,7 @@ func (r *Reservation) Create(createReservation validators.CreateReservationValid
 	r.Status = createReservation.Status
 	r.SalonID = createReservation.SalonID
 	r.HairdresserID = createReservation.HairdresserID
-	r.ClientID = createReservation.ClientID
+	r.UserID = createReservation.UserID
 }
 
 func (r *Reservation) Update(updateReservation validators.UpdateReservationValidator) {
@@ -30,5 +30,5 @@ func (r *Reservation) Update(updateReservation validators.UpdateReservationValid
 	r.Status = updateReservation.Status
 	r.SalonID = updateReservation.SalonID
 	r.HairdresserID = updateReservation.HairdresserID
-	r.ClientID = updateReservation.ClientID
+	r.UserID = updateReservation.UserID
 }
