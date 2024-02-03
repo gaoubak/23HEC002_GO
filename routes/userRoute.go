@@ -3,6 +3,7 @@ package routes
 
 import (
 	"GolandProject/contexts"
+	hairDresserHandler "GolandProject/handlers/hairDresser"
 	hairSalonHandler "GolandProject/handlers/hairSalon"
 	reservationHandler "GolandProject/handlers/reservation"
 	userHandler "GolandProject/handlers/user"
@@ -17,14 +18,23 @@ func SetupRoutes(router *gin.Engine) {
 	userGroup := router.Group("/user")
 	reservationGroup := router.Group("/reservation")
 	hairSalonGroup := router.Group("/hair-salon")
+	hairDresserGroup := router.Group("/hair-dresser")
 	// Appliquez AuthRequired aux routes nécessitant une authentification
 	userGroup.Use(middleware.AuthRequired)
 	hairSalonGroup.Use(middleware.AuthRequired)
-
+	//hairDresserGroup.Use(middleware.AuthRequired)
 	// Appliquez le middleware UserContext aux routes sous /user
 	userGroup.Use(contexts.UserContext())
 	userGroup.Use(contexts.ReservationContext())
+	hairDresserGroup.Use(contexts.HairDresserContext())
 
+	{
+		hairDresserGroup.PUT("/:hairdresserId", hairDresserHandler.UpdateHairDresserHandler)
+		hairDresserGroup.GET("/", hairDresserHandler.GetAllHairDresserHandler)
+		hairDresserGroup.DELETE("/:hairdresserId", hairDresserHandler.DeleteHairDresserHandler)
+		hairDresserGroup.POST("/", hairDresserHandler.RegisterHairDresserHandler)
+		hairDresserGroup.GET("/:hairdresserId", hairDresserHandler.GetSingleHairDresserHandler)
+	}
 	{
 		// Définissez vos gestionnaires qui peuvent accéder à l'utilisateur depuis le contexte
 		userGroup.GET("/:userId", userHandler.UserHandler)
