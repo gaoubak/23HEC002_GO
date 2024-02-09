@@ -22,26 +22,31 @@ func SetupRoutes(router *gin.Engine) {
 	// Appliquez AuthRequired aux routes nécessitant une authentification
 	userGroup.Use(middleware.AuthRequired)
 	hairSalonGroup.Use(middleware.AuthRequired)
-	//hairDresserGroup.Use(middleware.AuthRequired)
+	hairDresserGroup.Use(middleware.AuthRequired)
+	reservationGroup.Use(middleware.AuthRequired)
+
 	// Appliquez le middleware UserContext aux routes sous /user
 	userGroup.Use(contexts.UserContext())
 	userGroup.Use(contexts.ReservationContext())
 	hairDresserGroup.Use(contexts.HairDresserContext())
 
+	// USER ROUTES
 	{
-		hairDresserGroup.PUT("/:hairdresserId", hairDresserHandler.UpdateHairDresserHandler)
-		hairDresserGroup.GET("/", hairDresserHandler.GetAllHairDresserHandler)
-		hairDresserGroup.DELETE("/:hairdresserId", hairDresserHandler.DeleteHairDresserHandler)
-		hairDresserGroup.POST("/", hairDresserHandler.RegisterHairDresserHandler)
-		hairDresserGroup.GET("/:hairdresserId", hairDresserHandler.GetSingleHairDresserHandler)
-	}
-	{
-		// Définissez vos gestionnaires qui peuvent accéder à l'utilisateur depuis le contexte
 		userGroup.GET("/:userId", userHandler.UserHandler)
 		userGroup.PUT("/:userId", userHandler.UpdateUserHandler)
 		userGroup.GET("/", userHandler.GetAllUserHandler)
 	}
 
+	// HAIR DRESSER ROUTES
+	{
+		hairDresserGroup.GET("/", hairDresserHandler.GetAllHairDresserHandler)
+		hairDresserGroup.GET("/:hairdresserId", hairDresserHandler.GetSingleHairDresserHandler)
+		hairDresserGroup.POST("/", hairDresserHandler.RegisterHairDresserHandler)
+		hairDresserGroup.PUT("/:hairdresserId", hairDresserHandler.UpdateHairDresserHandler)
+		hairDresserGroup.DELETE("/:hairdresserId", hairDresserHandler.DeleteHairDresserHandler)
+	}
+
+	// RESERVATION ROUTES
 	{
 		reservationGroup.GET("/", reservationHandler.GetAllReservationsHandler)
 		reservationGroup.GET("/:reservationId", reservationHandler.GetReservationByIDHandler)
@@ -52,6 +57,8 @@ func SetupRoutes(router *gin.Engine) {
 		reservationGroup.PUT("/:reservationId", reservationHandler.UpdateReservationHandler)
 		reservationGroup.POST("/", reservationHandler.RegisterReservationHandler)
 	}
+
+	// HAIR SALON ROUTES
 	{
 		hairSalonGroup.GET("/:hairSalonId", hairSalonHandler.GetSingleHairSalonHandler)
 		hairSalonGroup.GET("/", hairSalonHandler.GetAllHairSalonHandler)

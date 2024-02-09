@@ -20,7 +20,7 @@ func GetSingleHairSalonHandler(c *gin.Context) {
 	hairSalonId := c.Param("hairSalonId")
 
 	// Effectuez une requête pour récupérer le salon de coiffure de la base de données
-	if err := db.First(&hairSalon, hairSalonId).Error; err != nil {
+	if err := db.Preload("HairDressers").Preload("Reservations").First(&hairSalon, hairSalonId).Error; err != nil {
 		// En cas d'erreur lors de la recherche, renvoyez une réponse d'erreur
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to retrieve hairSalon"})
 		return
