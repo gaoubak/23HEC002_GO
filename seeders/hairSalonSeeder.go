@@ -8,70 +8,63 @@ import (
 
 // HairSalonSeeder seeder pour les salons de coiffure
 func HairSalonSeeder(db *gorm.DB) {
-	// Vérifiez si les coiffeurs existent déjà dans la base de données
+	// Créez des coiffeurs si aucun n'existe
 	var existingCoiffeurs []models.HairDresser
 	db.Find(&existingCoiffeurs)
-
-	// Si aucun coiffeur n'existe, créez-en de nouveaux
 	if len(existingCoiffeurs) == 0 {
-		// Créez des coiffeurs...
-		coiffeur1 := models.HairDresser{
-			Name:        "Coiffeur 1",
-			Email:       "Coiffeur1@gmail.com",
-			Speciality:  "Permanente",
-			Description: "Coiffeur numéro 1",
+		coiffeurs := []models.HairDresser{
+			{
+				Name:        "Mia (Senior Stylist)",
+				Email:       "Mia@gmail.com",
+				Speciality:  "Permanente",
+				Description: "Senior styliste spécialisée dans la permanente et le lissage coréen.",
+			},
+			{
+				Name:        "Elise (Senior Stylist)",
+				Email:       "Elise@gmail.com",
+				Speciality:  "Couleur",
+				Description: "Senior styliste spécialisée dans la couleur et la décoloration.",
+			},
+			{
+				Name:        "Taylor (Senior Stylist)",
+				Email:       "Taylor@gmail.com",
+				Speciality:  "Coupe dégradée",
+				Description: "Senior styliste spécialisée dans la coupe dégradée et le lissage japonais.",
+			},
 		}
-		coiffeur2 := models.HairDresser{
-			Name:        "Coiffeur 2",
-			Email:       "Coiffeur2@gmail.com",
-			Speciality:  "Couleur",
-			Description: "Coiffeur numéro 2",
-		}
-		coiffeur3 := models.HairDresser{
-			Name:        "Coiffeur 3",
-			Email:       "Coiffeur3@gmail.com",
-			Speciality:  "Coupe dégradée",
-			Description: "Coiffeur numéro 3",
-		}
-
-		// Créez les enregistrements dans la base de données
-		db.Create(&coiffeur1)
-		db.Create(&coiffeur2)
-		db.Create(&coiffeur3)
+		db.Create(&coiffeurs)
+		existingCoiffeurs = coiffeurs
 	}
 
-	// Vérifiez si les salons de coiffure existent déjà dans la base de données
-	var existingSalons []models.HairSalon
-	db.Find(&existingSalons)
-
-	// Si aucun salon de coiffure n'existe, créez-en de nouveaux
-	if len(existingSalons) == 0 {
-		// Créez des salons de coiffure...
-		salon1 := models.HairSalon{
-			Name:        "Salon de coiffure 1",
-			Adress:      "1 rue du salon",
+	// Créez des salons de coiffure
+	salons := []models.HairSalon{
+		{
+			Name:        "Bleu coiffure",
+			Adress:      "16 Rue d'Ouessant, 75015 Paris, France",
 			Phone:       "0102030405",
 			Email:       "SalonNum1@mail.com",
-			Description: "Salon de coiffure numéro 1",
-		}
-		salon2 := models.HairSalon{
-			Name:        "Salon de coiffure 2",
-			Adress:      "2 rue du salon",
+			Description: "Venez découvrir Bleu Coiffure, un salon de coiffure coréen de renom à Paris 15, spécialisé dans les techniques de pointe telles que la permanente digitale coréenne, le lissage japonais et lissage coréen, ainsi que la décoloration et la coloration capillaire.",
+		},
+		{
+			Name:        "Hair Studio Greet",
+			Adress:      "90 Rue de Richelieu, 75002 Paris, France",
 			Phone:       "0102030406",
 			Email:       "SalonNum2@mail.com",
-			Description: "Salon de coiffure numéro 2",
-		}
-		salon3 := models.HairSalon{
-			Name:        "Salon de coiffure 3",
-			Adress:      "3 rue du salon",
+			Description: "Salon de coiffure, coréen et japonais situé à Paris II, ​Hair Studio Greet ! Nous sommes votre destination incontournable pour des transformations capillaires",
+		},
+		{
+			Name:        "Y Salon",
+			Adress:      "6 Rue de la Coutellerie, 75004 Paris",
 			Phone:       "0102030407",
 			Email:       "SalonNum3@mail.com",
-			Description: "Salon de coiffure numéro 3",
-		}
+			Description: "Salon de coiffure Y Salon situé à Paris 4ème, spécialisé dans les techniques de coiffure française. Venez découvrir notre salon de coiffure et nos coiffeurs professionnels.",
+		},
+	}
+	db.Create(&salons)
 
-		// Créez les enregistrements dans la base de données
-		db.Create(&salon1)
-		db.Create(&salon2)
-		db.Create(&salon3)
+	// Associez les coiffeurs aux salons de coiffure
+	for i, salon := range salons {
+		db.Model(&salon).Association("HairDressers").Append(&existingCoiffeurs[i])
 	}
 }
+
