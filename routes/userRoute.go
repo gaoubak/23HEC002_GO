@@ -7,7 +7,7 @@ import (
 	hairSalonHandler "GolandProject/handlers/hairSalon"
 	reservationHandler "GolandProject/handlers/reservation"
 	userHandler "GolandProject/handlers/user"
-	"GolandProject/middleware"
+	// "GolandProject/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,11 +19,12 @@ func SetupRoutes(router *gin.Engine) {
 	reservationGroup := router.Group("/reservation")
 	hairSalonGroup := router.Group("/hair-salon")
 	hairDresserGroup := router.Group("/hair-dresser")
+
 	// Appliquez AuthRequired aux routes nécessitant une authentification
-	userGroup.Use(middleware.AuthRequired)
-	hairSalonGroup.Use(middleware.AuthRequired)
-	hairDresserGroup.Use(middleware.AuthRequired)
-	reservationGroup.Use(middleware.AuthRequired)
+	// userGroup.Use(middleware.AuthRequired)
+	// hairSalonGroup.Use(middleware.AuthRequired)
+	// hairDresserGroup.Use(middleware.AuthRequired)
+	// reservationGroup.Use(middleware.AuthRequired)
 
 	// Appliquez le middleware UserContext aux routes sous /user
 	userGroup.Use(contexts.UserContext())
@@ -60,7 +61,7 @@ func SetupRoutes(router *gin.Engine) {
 
 	// HAIR SALON ROUTES
 	{
-		hairSalonGroup.GET("/:hairSalonId", hairSalonHandler.GetSingleHairSalonHandler)
 		hairSalonGroup.GET("/", hairSalonHandler.GetAllHairSalonHandler)
+		hairSalonGroup.GET("/:hairSalonId", hairSalonHandler.GetSingleHairSalonHandler)
 	}
 }

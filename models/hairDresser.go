@@ -10,7 +10,7 @@ type HairDresser struct {
 	Email        string        `json:"email"`
 	Speciality   string        `json:"speciality"`
 	Description  string        `json:"description"`
-	HairSalons   []HairSalon   `gorm:"many2many:hairdresser_hairsalon;" json:"hairSalons"`
+	HairSalons   []*HairSalon   `gorm:"many2many:hairdresser_hairsalon;" json:"hairSalons"`
 	Reservations []Reservation `gorm:"many2many:hairdresser_reservations;" json:"reservations"`
 }
 
