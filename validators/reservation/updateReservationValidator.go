@@ -11,8 +11,8 @@ type UpdateReservationValidator struct {
 	DateOfReservation time.Time `json:"dateOfReservation" validate:"required"`
 	Status            string    `json:"status" validate:"omitempty,min=2"`
 	SalonID           int       `json:"salonId" validate:"required"`
-	HairdresserID     int       `json:"hairdresserId" validate:"required"`
-	UserID          int       `json:"UserID" validate:"required"`
+	HairDresserID     int       `json:"HairDresserID" validate:"required"`
+	UserID            int       `json:"UserID" validate:"required"`
 }
 
 // Méthode pour valider la structure UpdateReservationValidator
